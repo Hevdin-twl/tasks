@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
 import random
+import os
 import time
 
+# инициализация Flask
 app = Flask(__name__)
 
-#функция ожидания прнимает параметр GET sleep?sleep=[значение]
+# функция ожидания прнимает параметр GET sleep?sleep=[значение]
 @app.route('/sleep', methods=['GET'])
 
 def sleep_route():
@@ -42,11 +44,31 @@ def self_test():
         # Возвращаем ошибку 400 Bad Request, если параметр отсутствует
         return jsonify({"error": "Missing self-test parameter"}), 400
 
+# функция wait ожидание перед запуском
+def wait(seconds):
+    """Функция ожидания"""
+    print(f"Ожидание перед запуском {seconds} секунд...")
+    time.sleep(seconds)
+    print("Ожидание завершено.")
+# функция считывания переменной окружения времени ожидания перед запуском, задается в окружении среды export STARTUP_DELAY_SECONDS=[seconds]
+def main():
+    # Считываем переменную окружения STARTUP_DELAY_SECONDS
+    startup_delay = os.environ.get('STARTUP_DELAY_SECONDS')
+    print(f"Значение ожидания:{startup_delay}")
+    # Приводим значение переменной к целому числу, если оно определено, иначе используем 0
+    if startup_delay is not None:
+        try:
+            delay_seconds = int(startup_delay)
+            # Проверяем, что значение больше или равно 0
+            if delay_seconds < 0:
+                raise ValueError("Значение задержки не может быть отрицательным.")
+        except ValueError as e:
+            print(f"Ошибка: {e}. Используем значение по умолчанию: 0.")
+            delay_seconds = 0
+    # Запускаем функцию ожидания
+    wait(delay_seconds)
 
-
-#if __name__ == '__main__':
-#    app.run(debug=True)
-# Запуск сервера
+# Вызов функции ожидания и запуск сервера
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8080, debug=True)
-
+    main()
+    app.run(host='127.0.0.1', port=8080, debug=False)
