@@ -6,8 +6,9 @@ import logging
 
 # инициализация Flask
 app = Flask(__name__)
+
 # инициализация логгера
-logger = getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 # функция ожидания прнимает параметр GET sleep?sleep=[значение]
 @app.route('/sleep', methods=['GET'])
