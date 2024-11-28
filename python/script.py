@@ -8,6 +8,7 @@ import logging
 app = Flask(__name__)
 
 # инициализация логгера
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # функция ожидания прнимает параметр GET sleep?sleep=[значение]
@@ -51,7 +52,10 @@ def wait(seconds):
 def main():
     # Считываем переменную окружения STARTUP_DELAY_SECONDS
     startup_delay = os.environ.get('STARTUP_DELAY_SECONDS')
-    logger.info(f"Значение ожидания:{startup_delay}")
+
+    # Логируем значение ожидания
+    logger.info(f"Значение ожидания: {startup_delay}")
+
     # Приводим значение переменной к целому числу, если оно определено, иначе используем 0
     if startup_delay is not None:
         try:
@@ -60,14 +64,15 @@ def main():
             if delay_seconds < 0:
                 raise ValueError("Значение задержки не может быть отрицательным.")
         except ValueError as e:
-            print(f"Ошибка: {e}. Используем значение по умолчанию: 0.")
+            logger.info(f"Ошибка: {e}. Используем значение по умолчанию: 0.")
             delay_seconds = 0
     else:
-        print(f"Ошибка: {e}. Используем значение по умолчанию: 0.")
-            delay_seconds = 0
+        # Если переменная не задана, устанавливаем значение по умолчанию
+        logger.info("Переменная окружения STARTUP_DELAY_SECONDS не найдена. Используем значение по умолчанию: 0.")
+        delay_seconds = 0
+
     # Запускаем функцию ожидания
     wait(delay_seconds)
-
 # Вызов функции ожидания и запуск сервера
 if __name__ == '__main__':
     main()
