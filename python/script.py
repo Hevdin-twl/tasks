@@ -73,7 +73,7 @@ def main():
 
     # Запускаем функцию ожидания
     wait(delay_seconds)
+    app.run(host='127.0.0.1', port=8080, debug=False)
 # Вызов функции ожидания и запуск сервера
 if __name__ == '__main__':
     main()
-    app.run(host='127.0.0.1', port=8080, debug=False)
