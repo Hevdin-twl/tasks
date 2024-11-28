@@ -13,7 +13,6 @@ logger = logging.getLogger(__name__)
 
 # функция ожидания прнимает параметр GET sleep?sleep=[значение]
 @app.route('/sleep', methods=['GET'])
-
 def sleep_route():
     # Получаем GET параметр 'sleep'
     host_url = request.host_url
@@ -36,7 +35,6 @@ def sleep_route():
     return f"Ждали {seconds} секунд."
 
 #функция проверки доступности вызывается гет параметром /self-test
-
 @app.route('/self-test', methods=['GET'])
 def self_test():
     # Возвращаем статус 200 OK без проверки параметра
@@ -48,6 +46,7 @@ def wait(seconds):
     logger.info(f"Ожидание перед запуском {seconds} секунд...")
     time.sleep(seconds)
     logger.info("Ожидание завершено.")
+
 # функция считывания переменной окружения времени ожидания перед запуском, задается в окружении среды export STARTUP_DELAY_SECONDS=[seconds]
 def main():
     # Считываем переменную окружения STARTUP_DELAY_SECONDS
@@ -74,6 +73,6 @@ def main():
     # Запускаем функцию ожидания
     wait(delay_seconds)
     app.run(host='127.0.0.1', port=8080, debug=False)
-# Вызов функции ожидания и запуск сервера
+# Вызов функции main
 if __name__ == '__main__':
     main()
