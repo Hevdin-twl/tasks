@@ -62,6 +62,9 @@ def main():
         except ValueError as e:
             print(f"Ошибка: {e}. Используем значение по умолчанию: 0.")
             delay_seconds = 0
+    else:
+        print(f"Ошибка: {e}. Используем значение по умолчанию: 0.")
+            delay_seconds = 0
     # Запускаем функцию ожидания
     wait(delay_seconds)
 
