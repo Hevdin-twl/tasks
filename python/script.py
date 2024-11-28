@@ -34,19 +34,12 @@ def sleep_route():
     time.sleep(seconds)
     return f"Ждали {seconds} секунд."
 
-# функция тестирования прнимает параметр GET self-test?self-test=true
+#функция проверки доступности вызывается гет параметром /self-test
+
 @app.route('/self-test', methods=['GET'])
 def self_test():
-    # Получение GET параметра
-    param = request.args.get('self-test')
-
-    # Проверка наличия параметра
-    if param is not None:
-        # Возвращаем статус 200 OK
-        return jsonify({"message": "Self-test successful"}), 200
-    else:
-        # Возвращаем ошибку 400 Bad Request, если параметр отсутствует
-        return jsonify({"error": "Missing self-test parameter"}), 400
+    # Возвращаем статус 200 OK без проверки параметра
+    return jsonify({"message": "Self-test successful"}), 200
 
 # функция wait ожидание перед запуском
 def wait(seconds):
