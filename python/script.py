@@ -16,23 +16,23 @@ logger = logging.getLogger(__name__)
 def sleep_route():
     # Получаем GET параметр 'sleep'
     host_url = request.host_url
-    sleep_value = request.args.get('sleep')
+    sleep_value = request.args.get('seconds')
 
     # Если параметр пустой, назначаем случайное значение от 1 до 5
     if not sleep_value:
-        seconds = random.randint(1, 5)
+        seconds_wait = random.randint(1, 5)
     else:
         # Пробуем преобразовать параметр в число
         try:
-            seconds = int(sleep_value)
-            if seconds < 1:
+            seconds_wait = int(sleep_value)
+            if seconds_wait < 1:
                 raise ValueError("Значение должно быть больше 0.")
         except ValueError:
             return "Параметр 'sleep' должен быть целым числом больше 0.", 400
 # Ожидаем заданное количество секунд
-    logger.info(f"{host_url} Aslept {seconds} seconds")
-    time.sleep(seconds)
-    return f"Ждали {seconds} секунд."
+    logger.info(f"{host_url} Aslept {seconds_wait} seconds")
+    time.sleep(seconds_wait)
+    return f"Ждали {seconds_wait} секунд."
 
 #функция проверки доступности вызывается гет параметром /self-test
 @app.route('/self-test', methods=['GET'])
