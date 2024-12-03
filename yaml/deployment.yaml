@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-test
+  name: flask-test1
   labels:
-    app: flask-test
+    app: flask-test1
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: flask-test
+      app: flask-test1
   template:
     metadata:
       labels:
-        app: flask-test
+        app: flask-test1
     spec:
       containers:
-      - name: flask-test
-        image: hevdin/myimages:flask-test
+      - name: flask-test1
+        image: hevdin/myimages:flask_test1
         ports:
         - containerPort: 8080

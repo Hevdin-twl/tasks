@@ -9,9 +9,5 @@ RUN pip3 install --upgrade pip -r requirements.txt
 COPY . /backend
 # Устанавливаем порт, который будет использоваться для сервера
 EXPOSE 8080
-# установка рабочий директориии приложения
-WORKDIR /python
-# копируем приложение
-COPY . ../../python
 # Запускаем приложение
 CMD ["python3", "-u", "script.py"]
