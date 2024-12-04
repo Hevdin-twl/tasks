@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: flask-test1
-        image: hevdin/myimages:flask_test1
+        image: hevdin/flask-test:latest
         ports:
         - containerPort: 8080

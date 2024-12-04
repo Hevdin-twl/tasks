@@ -1,5 +1,5 @@
 # Определяем переменные
-IMAGE_NAME=hevdin/myimages/flask-test1
+IMAGE_NAME=hevdin/flask-test
 K8S_DEPLOYMENT=flask-test1
 K8S_NAMESPACE=default
 
