@@ -36,4 +36,4 @@ deploy:
 rollback:
 	kubectl rollout undo deployment/$(K8S_DEPLOYMENT) -n $(K8S_NAMESPACE)
 
-.PHONY: all build push deploy rollback buildarm
+.PHONY: all build push deploy rollback buildarm buildamd
