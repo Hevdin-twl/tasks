@@ -21,12 +21,12 @@ jobs:
 
       - name: Build Docker image
         id: build-image
-         run:
+        run: |
           TAG=$(echo "${GITHUB_SHA}" | cut -c1-7) # Получаем короткий SHA-1
           echo "TAG=${TAG}" >> $GITHUB_ENV  # Сохраняем в переменной окружения
           docker build -t hevdin/flask-test:${TAG}  # Собираем образ
 
       - name: Push Docker image
-         run: |
+        run: |
           TAG=$(echo "${GITHUB_SHA}" | cut -c1-7)  # Получаем короткий SHA-1
           docker push hevdin/flask-test:${TAG}  # Загружаем образ в DockerHub
