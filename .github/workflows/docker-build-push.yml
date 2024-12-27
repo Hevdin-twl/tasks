@@ -27,7 +27,7 @@ jobs:
         run: |
           TAG=$(echo "${GITHUB_SHA}" | cut -c1-7) # Получаем короткий SHA-1
           echo "TAG=${TAG}" >> $GITHUB_ENV  # Сохраняем в переменной окружения
-          docker buildx build -f ../../python/Dockerfile ../../python/Makefile -t hevdin/flask-test:${TAG} --push  # Укажите правильный путь к Dockerfile и контексту
+          docker buildx build -f ../../python/Dockerfile --platform linux/amd64,linux/arm64 -t hevdin/flask-test:${TAG} --push  # Укажите правильный путь к Dockerfile и контексту
       - name: Push Docker image
         run: |
           TAG=${{ env.TAG }}
