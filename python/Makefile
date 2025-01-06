@@ -13,7 +13,7 @@ HELM_DIR=../helm/flask_app/
 .DEFAULT_GOAL := all
 
 # Makefile targets
-all: build build_last push deploy buildarm buildamd release echo_chart
+all: build build_last push deploy buildarm buildamd release
 #сборка билда с тегом последней версии из github
 build:
 	@echo "Сборка Docker image с текущей версией из Github..."
@@ -47,4 +47,4 @@ rollback:
 release:
 	helm upgrade $(K8S_DEPLOYMENT) $(HELM_DIR) --set=image.tag=$(APP_VERSION)
 
-.PHONY: all build build_last push deploy rollback buildarm buildamd release echo_chart
+.PHONY: all build build_last push deploy rollback buildarm buildamd release
