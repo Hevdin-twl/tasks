@@ -7,14 +7,13 @@ TAGARM=$(ARCHARM)
 ARCHAMD=amd64
 TAGAMD=$(ARCHAMD)
 APP_VERSION := $(shell git rev-parse --short HEAD)
-
+HELM_DIR=../helm/flask_app/
 
 # Основной target по умолчанию
 .DEFAULT_GOAL := all
 
 # Makefile targets
-all: build build_last push deploy buildarm buildamd
-
+all: build build_last push deploy buildarm buildamd release echo_chart
 #сборка билда с тегом последней версии из github
 build:
 	@echo "Сборка Docker image с текущей версией из Github..."
@@ -44,4 +43,8 @@ deploy:
 rollback:
 	kubectl rollout undo deployment/$(K8S_DEPLOYMENT) -n $(K8S_NAMESPACE)
 
-.PHONY: all build build_last push deploy rollback buildarm buildamd
+# Задача для helm upgrade релиза с текущим git-hub hash комита значение K8S_DEPLOYMENT в нашем случае совпадает с названием релиза хельм
+release:
+	helm upgrade $(K8S_DEPLOYMENT) $(HELM_DIR) --set=image.tag=$(APP_VERSION)
+
+.PHONY: all build build_last push deploy rollback buildarm buildamd release echo_chart
