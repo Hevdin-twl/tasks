@@ -12,10 +12,10 @@ spec:
   template:
     metadata:
       labels:
-        app: flask-test1
+        app: python-app
     spec:
       containers:
       - name: flask-test1
-        image: hevdin/flask-test:latest
+        image:  hevdin/flask-test
         ports:
         - containerPort: 8080

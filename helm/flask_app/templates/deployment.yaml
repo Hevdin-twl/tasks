@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-test1
+  name: {{ .Values.name }}
   labels:
-    app: flask-test1
+    app: {{ .Values.name }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 2
   selector:
     matchLabels:
-      app: flask-test1
+      app: {{ .Values.name }}
   template:
     metadata:
       labels:
-        app: flask-test1
+        app: {{ .Values.name }}
     spec:
       containers:
-      - name: flask-test1
-        image: {{ .Values.image.repository }}:latest
+      - name: {{ .Values.name }}
+        image: {{ .Values.image }}
         ports:
         - containerPort: 8080
