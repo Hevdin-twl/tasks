@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       labels:
-        app: python-app
+        app: flask-test1
     spec:
       containers:
       - name: flask-test1
