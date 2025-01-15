@@ -4,18 +4,16 @@ metadata:
   name: {{ .Values.name }}
   labels:
     app: {{ .Values.name }}
-    app_type: flask-test
+    app_type: {{ .Values.app_type }}
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: {{ .Values.name }}
-      app_type: flask-test
   template:
     metadata:
       labels:
         app: {{ .Values.name }}
-        app_type: flask-test
     spec:
       containers:
       - name: {{ .Values.name }}
