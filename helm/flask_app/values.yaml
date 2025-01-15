@@ -2,4 +2,4 @@
 name: flask-test1
 image:
   repository: hevdin/flask-test
-  tag: c82938e
+  tag: 9665329
