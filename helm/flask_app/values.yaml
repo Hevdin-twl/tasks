@@ -3,4 +3,4 @@ name: flask-test1
 app_type: flask-test
 image:
   repository: hevdin/flask-test
-  tag: cc9a57b
+  tag: 323ede8
