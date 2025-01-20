@@ -3,4 +3,8 @@ name: flask-test1
 app_type: flask-test
 image:
   repository: hevdin/flask-test
-  tag: 323ede8
+  tag: 4b4cd25
+serviceAccount:
+  create: true
+  name: flask-test
+
