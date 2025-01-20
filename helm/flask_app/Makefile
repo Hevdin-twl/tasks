@@ -5,6 +5,7 @@ IMAGENAME := hevdin/flask-test
 HELM_DIR=./
 APP_LABLE := flask-test
 APP_SERVICEACCOUNT := flask-test
+APP_NAMESPACE := default
 
 # Динамическое получение последнего Git commit hash
 IMAGETAG := $(shell git rev-parse --short HEAD)
@@ -26,6 +27,7 @@ helm-generate-values:
 	echo "  repository: $(IMAGENAME)" >> $(VALUES_FILE)
 	echo "  tag: $(IMAGETAG)" >> $(VALUES_FILE)
 	echo "serviceAccount:\n  create: true\n  name: $(APP_SERVICEACCOUNT)\n" >> $(VALUES_FILE)
+	echo "namespace: $(APP_NAMESPACE) >> $(VALUES_FILE)"
 	
 # Полный процесс: генерация values.yaml + деплой
 helm-full-deploy: helm-generate-values helm-deploy
