@@ -1,5 +1,4 @@
 # Используем мульти-аргументы для определения архитектуры
-ARG ARCH=amd64
 FROM ubuntu:latest
 
 # Установка необходимых пакетов для работы с kubectl
@@ -11,6 +10,7 @@ RUN apt-get update && apt-get install -y \
 # Получение версии kubectl и установка
 RUN curl -L https://dl.k8s.io/release/stable.txt -o kubectl_version && \
     KUBECTL_VERSION=$(cat kubectl_version) && \
+    ARCH=$(uname -m) && \
     KUBECTL_URL="https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl" && \
     curl -LO ${KUBECTL_URL} && \
     chmod +x kubectl && \
@@ -21,4 +21,4 @@ RUN curl -L https://dl.k8s.io/release/stable.txt -o kubectl_version && \
 WORKDIR /workdir
 
 # Устанавливаем точку входа
-ENTRYPOINT ["kubectl"]
+CMD ["bash"]
