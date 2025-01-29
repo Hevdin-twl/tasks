@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
 RUN curl -L https://dl.k8s.io/release/stable.txt -o kubectl_version && \
     KUBECTL_VERSION=$(cat kubectl_version) && \
     ARCH=$(uname -m) && \
+    if [ "$ARCH" = "aarch64" ]; then ARCH="arm64"; fi && \
     KUBECTL_URL="https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl" && \
     curl -LO ${KUBECTL_URL} && \
     chmod +x kubectl && \
