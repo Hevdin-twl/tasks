@@ -8,14 +8,16 @@ RUN apt-get update && apt-get install -y \
     && update-ca-certificates
 
 # Получение версии kubectl и установка
-RUN curl -L https://dl.k8s.io/release/stable.txt -o kubectl_version && \
-    KUBECTL_VERSION=$(cat kubectl_version) && \
-    ARCH=$(uname -m) && \
-    KUBECTL_URL="https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl" && \
-    curl -LO ${KUBECTL_URL} && \
-    chmod +x kubectl && \
-    mv kubectl /usr/local/bin/ && \
-    rm kubectl_version
+RUN <<EOF 
+curl -L https://dl.k8s.io/release/stable.txt -o kubectl_version && \
+KUBECTL_VERSION=$(cat kubectl_version) && \
+ARCH=$(uname -m) && \
+KUBECTL_URL="https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl" && \
+curl -LO ${KUBECTL_URL} && \
+chmod +x kubectl && \
+mv kubectl /usr/local/bin/ && \
+rm kubectl_version
+EOF
     
 # Устанавливаем рабочую директорию для конфигурации среды
 WORKDIR /backend
