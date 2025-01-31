@@ -1,9 +1,0 @@
-Для сборки образа нужной архитектуры:
-
-docker build --build-arg ARCH=amd64 -t my-kubectl-amd64 .
-docker build --build-arg ARCH=arm64 -t my-kubectl-arm64 .
-
-Для сборки под платформу через buildx
-docker buildx build --platform linux/amd64 -t my-kubectl-amd64 .
-docker buildx build --platform linux/arm64 -t my-kubectl-arm64 .
-
