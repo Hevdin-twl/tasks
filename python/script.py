@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from kubernetes import client, config
 import random
 import os
 import time

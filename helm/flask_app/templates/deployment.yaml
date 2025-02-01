@@ -15,6 +15,7 @@ spec:
         app: {{ .Values.name }}
         app_type: {{ .Values.app_type }}
     spec:
+      serviceAccount: {{ .Values.serviceAccount.name  }}
       serviceAccountName: {{ .Values.serviceAccount.name  }}
       containers:
       - name: {{ .Values.name }}
