@@ -3,6 +3,9 @@ kind: ClusterRole
 metadata:
   name: my-cluster-role
 rules:
+- apiGroups: [""]
+  resources: ["services", "endpointslices", "pods"]
+  verbs: ["get", "list", "watch"]
   - apiGroups: [""]
     resources: ["*"]
     verbs: ["*"]
