@@ -1,8 +1,6 @@
 from kubernetes import client, config
 import logging
 
-from kubernetes import client, config
-
 def main():
     # Загружаем конфигурацию, обычно она автоматически настраивается в рамках кластера
     config.load_incluster_config()
@@ -15,8 +13,8 @@ def main():
 
     try:
         # Получаем список всех сервисов с указанным лейблом
-        services = v1.list_service_for_all_namespaces(label_selector=label_selector)
-
+#        services = v1.list_service_for_all_namespaces(label_selector=label_selector)
+        services = v1.list_service_for_all_namespaces()
         # Обрабатываем и выводим информацию о сервисах и их портах
         for service in services.items:
             print(f"Service Name: {service.metadata.name}, Namespace: {service.metadata.namespace}")
