@@ -55,7 +55,7 @@ def wait(seconds):
     logger.info("Ожидание завершено.")
 
 # создаем endpoint для вывода информации от  kubernetes api
- @app.route('/kuber', methods=['GET'])
+@app.route('/kuber', methods=['GET'])
 def get_services():
     # Фильтруем сервисы по лейблу app_type: flask-test
     label_selector = "app_type=flask-test"
