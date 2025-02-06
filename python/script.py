@@ -80,7 +80,7 @@ def get_services():
             service_list.append(service_info)
         
         # возвращаем результат service_info
-        print(service_info)
+        print(service_list)
         # Возвращаем результаты в формате JSON
         return jsonify(service_list)
     
