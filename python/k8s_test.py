@@ -17,12 +17,12 @@ def main():
         services = v1.list_service_for_all_namespaces()
         # Обрабатываем и выводим информацию о сервисах и их портах
         for service in services.items:
-            print(f"Service Name: {service.metadata.name}, Namespace: {service.metadata.namespace}")
+            logger.info(f"Service Name: {service.metadata.name}, Namespace: {service.metadata.namespace}")
             for port in service.spec.ports:
-                print(f"  - Port: {port.port}, Protocol: {port.protocol}")
+                logger.info(f"  - Port: {port.port}, Protocol: {port.protocol}")
 
     except client.exceptions.ApiException as e:
-        print(f"An error occurred: {e}")
+        logger.info(f"An error occurred: {e}")
 
 if __name__ == "__main__":
     main()
