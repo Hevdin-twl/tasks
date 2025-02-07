@@ -8,9 +8,11 @@ import logging
 # инициализация Flask
 app = Flask(__name__)
 
-# инициализация логгера
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+config.load_incluster_config()
+v1 = client.CoreV1Api()
 
 # функция ожидания прнимает параметр GET sleep?sleep=[значение]
 @app.route('/sleep', methods=['GET'])
@@ -51,20 +53,13 @@ def wait(seconds):
 # создаем endpoint для вывода информации от  kubernetes api
 @app.route('/kuber', methods=['GET'])
 def get_services():
-    # Загружаем конфигурацию, обычно она автоматически настраивается в рамках кластера
-    config.load_incluster_config()
-
-    # Создаем объект API для работы с серверами Kubernetes
-    v1 = client.CoreV1Api()
-    # Фильтруем сервисы по лейблу app_type: flask-test
     label_selector = "app_type=flask-test"
-    
     try:
-        # Получаем список всех сервисов с указанным лейблом
+        logger.info("Получение сервисов с лейблом: %s", label_selector)
         services = v1.list_service_for_all_namespaces(label_selector=label_selector)
-        
-        # Подготавливаем данные к возврату
-        #service_list = []
+        logger.info("Количество сервисов, найденных: %d", len(services.items))
+
+        service_list = []
         for service in services.items:
             service_info = {
                 'name': service.metadata.name,
@@ -77,13 +72,12 @@ def get_services():
                     'protocol': port.protocol
                 })
             service_list.append(service_info)
-        # Возвращаем результаты в формате JSON
-        return jsonify(service_list)
-    
-    except client.exceptions.ApiException as e:
-        logger.error(f"An error occurred: {e}")
-        return jsonify({'error': str(e)}), 500   
 
+        return jsonify(service_list), 200
+    except Exception as e:
+        logger.error("Ошибка при получении сервисов: %s", str(e))
+        return jsonify({'error': str(e)}), 500
+    
 # функция считывания переменной окружения времени ожидания перед запуском, задается в окружении среды export STARTUP_DELAY_SECONDS=[seconds]
 def main():
     # Считываем переменную окружения STARTUP_DELAY_SECONDS
