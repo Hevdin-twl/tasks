@@ -57,8 +57,14 @@ def wait(seconds):
 # создаем endpoint для вывода информации от  kubernetes api
 @app.route('/kuber', methods=['GET'])
 def get_services():
+
+    # Загружаем конфигурацию, обычно она автоматически настраивается в рамках кластера
+    config.load_incluster_config()
+
+    # Создаем объект API для работы с серверами Kubernetes
+    v1 = client.CoreV1Api()
     # Фильтруем сервисы по лейблу app_type: flask-test
-    label_selector = "app_type=default"
+    label_selector = "app_type=flask-test"
     
     try:
         # Получаем список всех сервисов с указанным лейблом
