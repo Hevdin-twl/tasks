@@ -77,7 +77,6 @@ def get_services():
     except Exception as e:
         logger.error("Ошибка при получении сервисов: %s", str(e))
         return jsonify({'error': str(e)}), 500
-get_services.run()
     
 # функция считывания переменной окружения времени ожидания перед запуском, задается в окружении среды export STARTUP_DELAY_SECONDS=[seconds]
 def main():
