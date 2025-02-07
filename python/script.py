@@ -12,12 +12,6 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-#Загружаем конфигурацию, обычно она автоматически настраивается в рамках кластера
-config.load_incluster_config()
-
-# Создаем объект API для работы с серверами Kubernetes
-v1 = client.CoreV1Api()
-
 # функция ожидания прнимает параметр GET sleep?sleep=[значение]
 @app.route('/sleep', methods=['GET'])
 def sleep_route():
@@ -57,21 +51,38 @@ def wait(seconds):
 # создаем endpoint для вывода информации от  kubernetes api
 @app.route('/kuber', methods=['GET'])
 def get_services():
+    # Загружаем конфигурацию, обычно она автоматически настраивается в рамках кластера
+    config.load_incluster_config()
+
+    # Создаем объект API для работы с серверами Kubernetes
+    v1 = client.CoreV1Api()
     # Фильтруем сервисы по лейблу app_type: flask-test
     label_selector = "app_type=flask-test"
-
+    
     try:
         # Получаем список всех сервисов с указанным лейблом
-#        services = v1.list_service_for_all_namespaces(label_selector=label_selector)
-        services = v1.list_service_for_all_namespaces()
-        # Обрабатываем и выводим информацию о сервисах и их портах
+        services = v1.list_service_for_all_namespaces(label_selector=label_selector)
+        
+        # Подготавливаем данные к возврату
+        #service_list = []
         for service in services.items:
-            logger.info(f"Service Name: {service.metadata.name}, Namespace: {service.metadata.namespace}")
+            service_info = {
+                'name': service.metadata.name,
+                'namespace': service.metadata.namespace,
+                'ports': []
+            }
             for port in service.spec.ports:
-                logger.info(f"  - Port: {port.port}, Protocol: {port.protocol}")
-
+                service_info['ports'].append({
+                    'port': port.port,
+                    'protocol': port.protocol
+                })
+            service_list.append(service_info)
+        # Возвращаем результаты в формате JSON
+        return jsonify(service_list)
+    
     except client.exceptions.ApiException as e:
-        logger.info(f"An error occurred: {e}")
+        logger.error(f"An error occurred: {e}")
+        return jsonify({'error': str(e)}), 500   
 
 # функция считывания переменной окружения времени ожидания перед запуском, задается в окружении среды export STARTUP_DELAY_SECONDS=[seconds]
 def main():
