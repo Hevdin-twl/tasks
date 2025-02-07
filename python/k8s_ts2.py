@@ -2,15 +2,12 @@ from flask import Flask, jsonify
 from kubernetes import client, config
 import logging
 
-app = Flask(__name__)
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 config.load_incluster_config()
 v1 = client.CoreV1Api()
 
-@app.route('/kuber', methods=['GET'])
 def main():
     label_selector = "app_type=flask-test"
     try:
@@ -36,6 +33,7 @@ def main():
     except Exception as e:
         logger.error("Ошибка при получении сервисов: %s", str(e))
         return jsonify({'error': str(e)}), 500
-    
-    if __name__ == "__main__":
+ 
+ if __name__ == "__main__":
     main()
+   
