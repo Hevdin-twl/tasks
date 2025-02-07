@@ -12,6 +12,12 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+#Загружаем конфигурацию, обычно она автоматически настраивается в рамках кластера
+config.load_incluster_config()
+
+# Создаем объект API для работы с серверами Kubernetes
+v1 = client.CoreV1Api()
+
 # функция ожидания прнимает параметр GET sleep?sleep=[значение]
 @app.route('/sleep', methods=['GET'])
 def sleep_route():
@@ -51,12 +57,6 @@ def wait(seconds):
 # создаем endpoint для вывода информации от  kubernetes api
 @app.route('/kuber', methods=['GET'])
 def get_services():
-# Загружаем конфигурацию, обычно она автоматически настраивается в рамках кластера
-    config.load_incluster_config()
-
-    # Создаем объект API для работы с серверами Kubernetes
-    v1 = client.CoreV1Api()
-
     # Фильтруем сервисы по лейблу app_type: flask-test
     label_selector = "app_type=flask-test"
 
