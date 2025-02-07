@@ -34,6 +34,6 @@ def main():
         logger.error("Ошибка при получении сервисов: %s", str(e))
         return jsonify({'error': str(e)}), 500
  
- if __name__ == "__main__":
+if __name__ == "__main__":
     main()
    
