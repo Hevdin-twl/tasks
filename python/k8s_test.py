@@ -1,6 +1,10 @@
 from kubernetes import client, config
 import logging
 
+# инициализация логгера
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 def main():
     # Загружаем конфигурацию, обычно она автоматически настраивается в рамках кластера
     config.load_incluster_config()

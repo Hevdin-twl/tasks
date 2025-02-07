@@ -58,7 +58,7 @@ def wait(seconds):
 @app.route('/kuber', methods=['GET'])
 def get_services():
     # Фильтруем сервисы по лейблу app_type: flask-test
-    label_selector = "app_type=flask-test"
+    label_selector = "app_type=default"
     
     try:
         # Получаем список всех сервисов с указанным лейблом
@@ -78,9 +78,6 @@ def get_services():
                     'protocol': port.protocol
                 })
             service_list.append(service_info)
-        
-        # возвращаем результат service_info
-        print(service_list)
         # Возвращаем результаты в формате JSON
         return jsonify(service_list)
     
