@@ -12,12 +12,6 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Загрузка конфигурации Kubernetes
-config.load_incluster_config()
-
-# Создаем объект API для работы с серверами Kubernetes
-v1 = client.CoreV1Api()
-
 # функция ожидания прнимает параметр GET sleep?sleep=[значение]
 @app.route('/sleep', methods=['GET'])
 def sleep_route():
