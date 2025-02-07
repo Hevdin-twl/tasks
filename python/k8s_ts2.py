@@ -1,4 +1,3 @@
-from flask import Flask, jsonify
 from kubernetes import client, config
 import logging
 
@@ -29,11 +28,10 @@ def main():
                 })
             service_list.append(service_info)
 
-        return jsonify(service_list), 200
+        return (service_list), 200
     except Exception as e:
         logger.error("Ошибка при получении сервисов: %s", str(e))
-        return jsonify({'error': str(e)}), 500
+        return ({'error': str(e)}), 500
  
 if __name__ == "__main__":
     main()
-   
