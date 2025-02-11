@@ -11,7 +11,7 @@ def main():
     label_selector = "app_type=flask-test"
     try:
         logger.info("Получение сервисов с лейблом: %s", label_selector)
-        services = v1.list_service_for_all_namespaces(label_selector=default)
+        services = v1.list_service_for_all_namespaces(label_selector=label_selector)
         logger.info("Количество сервисов, найденных: %d", len(services.items))
 
         service_list = []

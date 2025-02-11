@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ .Values.name }}
   labels:
-    app: python-app
+    app_type: {{ .Values.app_type }}
 spec:
   type: NodePort
   ports:
