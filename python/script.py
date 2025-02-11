@@ -12,6 +12,10 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+#инициализация конфигурации кубера через его api
+config.load_incluster_config()
+v1 = client.CoreV1Api()
+
 # функция ожидания прнимает параметр GET sleep?sleep=[значение]
 @app.route('/sleep', methods=['GET'])
 def sleep_route():
@@ -51,10 +55,6 @@ def wait(seconds):
 # создаем endpoint для вывода информации от  kubernetes api
 @app.route('/kuber', methods=['GET'])
 def get_service():
-    #инициализация конфигурации кубера через его api
-    config.load_incluster_config()
-    v1 = client.CoreV1Api()
-    
     # определение лейбла сервиса
     label_selector = "app_type=flask-test"
     try:
@@ -77,8 +77,8 @@ def get_service():
             service_list.append(service_info)
 
         logger.info(service_list), 200
-    except Exception as e:
-        logger.error("Ошибка при получении сервисов: %s", str(e))
+#    except Exception as e:
+ #       logger.error("Ошибка при получении сервисов: %s", str(e))
     #    return ({'error': str(e)}), 500
     
 # функция считывания переменной окружения времени ожидания перед запуском, задается в окружении среды export STARTUP_DELAY_SECONDS=[seconds]
