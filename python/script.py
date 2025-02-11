@@ -80,7 +80,7 @@ def get_service():
         return jsonify(service_list), 200
     except Exception as e:
         logger.error("Ошибка при получении сервисов: %s", str(e))
-        return ({'error': str(e)}), 500
+        return jsonify({'error': str(e)}), 500
     
 # функция считывания переменной окружения времени ожидания перед запуском, задается в окружении среды export STARTUP_DELAY_SECONDS=[seconds]
 def main():
