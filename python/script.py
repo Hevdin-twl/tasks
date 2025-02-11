@@ -52,17 +52,19 @@ def wait(seconds):
 
 # создаем endpoint для вывода информации от  kubernetes api
 @app.route('/kuber', methods=['GET'])
-def get_services():
-    label_selector = "app_type=flask-test"
+def get_service():
+    config.load_incluster_config()
+    v1 = client.CoreV1Api()
+    
     try:
-        logger.info("Получение сервисов с лейблом: %s", label_selector)
-        services = v1.list_service_for_all_namespaces(label_selector=label_selector)
+        services = v1.list_service_for_all_namespaces()
         logger.info("Количество сервисов, найденных: %d", len(services.items))
 
         service_list = []
         for service in services.items:
             service_info = {
                 'name': service.metadata.name,
+                'lable': service.metadata.lables,
                 'namespace': service.metadata.namespace,
                 'ports': []
             }
@@ -73,10 +75,10 @@ def get_services():
                 })
             service_list.append(service_info)
 
-        return jsonify(service_list), 200
+        return (service_list), 200
     except Exception as e:
         logger.error("Ошибка при получении сервисов: %s", str(e))
-        return jsonify({'error': str(e)}), 500
+        return ({'error': str(e)}), 500
     
 # функция считывания переменной окружения времени ожидания перед запуском, задается в окружении среды export STARTUP_DELAY_SECONDS=[seconds]
 def main():
