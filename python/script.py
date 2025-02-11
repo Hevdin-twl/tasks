@@ -57,7 +57,7 @@ def wait(seconds):
 def get_service():
     # определение лейбла сервиса
     label_selector = "app_type=flask-test"
-    try:
+   # try:
         logger.info("Получение сервисов с лейблом: %s", label_selector)
         services = v1.list_service_for_all_namespaces(label_selector=label_selector)
         logger.info("Количество сервисов, найденных: %d", len(services.items))
@@ -77,8 +77,8 @@ def get_service():
             service_list.append(service_info)
 
         logger.info(service_list), 200
-#    except Exception as e:
- #       logger.error("Ошибка при получении сервисов: %s", str(e))
+    #except Exception as e:
+    #    logger.error("Ошибка при получении сервисов: %s", str(e))
     #    return ({'error': str(e)}), 500
     
 # функция считывания переменной окружения времени ожидания перед запуском, задается в окружении среды export STARTUP_DELAY_SECONDS=[seconds]
