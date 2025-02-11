@@ -8,11 +8,9 @@ import logging
 # инициализация Flask
 app = Flask(__name__)
 
+#инициализация логггера
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-config.load_incluster_config()
-v1 = client.CoreV1Api()
 
 # функция ожидания прнимает параметр GET sleep?sleep=[значение]
 @app.route('/sleep', methods=['GET'])
@@ -53,13 +51,15 @@ def wait(seconds):
 # создаем endpoint для вывода информации от  kubernetes api
 @app.route('/kuber', methods=['GET'])
 def get_service():
+    #инициализация конфигурации кубера через его api
     config.load_incluster_config()
     v1 = client.CoreV1Api()
     
+    # определение лейбла сервиса
     label_selector = "app_type=flask-test"
     try:
         logger.info("Получение сервисов с лейблом: %s", label_selector)
-        services = v1.list_service_for_all_namespaces()
+        services = v1.list_service_for_all_namespaces(label_selector=label_selector)
         logger.info("Количество сервисов, найденных: %d", len(services.items))
 
         service_list = []
