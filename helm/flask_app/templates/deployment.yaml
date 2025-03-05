@@ -4,6 +4,8 @@ metadata:
   name: {{ .Values.name }}
   labels:
     app: {{ .Values.name }}
+    app_type: {{  .Values.app_type  }}
+    service_type: {{  .Values.lable_service_type  }}
 spec:
   replicas: 2
   selector:
