@@ -2,7 +2,8 @@
 FROM python:3.11.0
 
 #Обновление qemu
-RUN apt-get update и apt-get install qemu-system
+RUN apt update \ 
+    apt install qemu-system
 
 # Установка необходимых пакетов для работы с kubectl
 RUN apt-get update && apt-get install -y \
