@@ -1,8 +1,13 @@
 from kubernetes import client, config
+from flask import Flask, request, jsonify
 import logging
+import urllib.request
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+import logging
+import urllib.request
 
 def main():
     # Определение лейбла сервиса
@@ -31,17 +36,24 @@ def main():
             # Формируем DNS имя и добавляем его в массив dns_names
             dns_name = f"{service.metadata.name}.default.svc.cluster.local:8080/sleep"
             dns_names.append(dns_name)  # Добавляем в массив
+            
+        # Создаем массив для хранения ответов от веб-сервера
+        response = []
         
-        logger.info(service_list)
-        
-        # Выводим значения массива dns_names
-        logger.info("Сформированы следующие DNS имена: %s", dns_names)
-    
-        # Возвращаем JSON-ответ с кодом 200
-        return jsonify(service_list), 200
+        for dns_name in dns_names:
+            try:
+                with urllib.request.urlopen(dns_name) as url_response:
+                    response_data = url_response.read().decode('utf-8')
+                    response.append(response_data)
+                    logger.info("Cluster Dns name: %s. Response: %s", dns_name, response_data)
+            except Exception as e:
+                logger.error("Ошибка при обращении к %s: %s", dns_name, e)
+                response.append(f"Error accessing {dns_name}: {e}")
+            
     except Exception as e:
-        logger.error("Ошибка при получении сервисов: %s", str(e))
-        return jsonify({'error': str(e)}), 500 
+        logger.error("Произошла ошибка: %s", e)
+
+    return service_list, response  # Возвращаем список сервисов и массив ответов
  
 if __name__ == "__main__":
     main()

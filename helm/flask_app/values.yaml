@@ -12,7 +12,7 @@ targetport: 8080
 nodeport: 30001
 image:
   repository: hevdin/flask-test
-  tag: 8618622
+  tag: 5f6551d
 namespace: default
 serviceAccount:
   create: true
