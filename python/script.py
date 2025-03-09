@@ -88,7 +88,7 @@ def get_service():
         for dns_name in dns_names:
             try:
                 with urllib.request.urlopen(dns_name) as url_response:
-                    response_data = url_response.read().decode('utf-8')
+                    response_data = url_response.read().decode('utf-16')
                     response.append(response_data)
                     logger.info("Cluster Dns name: %s. Response: %s", dns_name, response_data)
             except Exception as e:
