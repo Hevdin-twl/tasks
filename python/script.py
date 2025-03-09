@@ -64,7 +64,7 @@ def get_service():
     logger.info("Количество сервисов, найденных: %d", len(services.items))
     
     try:
-        service_list = []
+        service_list = [] #Создаем массив для хранения списка сервисов
         dns_names = []  # Создаем массив для хранения DNS имен
         
         for service in services.items:

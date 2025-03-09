@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ .Values.name }}
   labels:
-    app: {{ .Values.name }}
+  - app: {{ .Values.name }}
     app_type: {{  .Values.app_type  }}
     service_type: {{  .Values.lable_service_type  }}
 spec:
