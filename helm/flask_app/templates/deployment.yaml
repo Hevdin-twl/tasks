@@ -3,11 +3,11 @@ kind: Deployment
 metadata:
   name: {{ .Values.name }}
   labels:
-  - app: {{ .Values.name }}
+    app: {{ .Values.name }}
     app_type: {{  .Values.app_type  }}
     service_type: {{  .Values.lable_service_type  }}
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: {{ .Values.name }}
@@ -15,6 +15,8 @@ spec:
     metadata:
       labels:
         app: {{ .Values.name }}
+        app_type: {{  .Values.app_type  }}
+        service_type: {{  .Values.lable_service_type  }}
     spec:
       serviceAccount: {{ .Values.serviceAccount.name  }}
       serviceAccountName: {{ .Values.serviceAccount.name  }}

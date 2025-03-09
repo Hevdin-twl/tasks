@@ -58,13 +58,13 @@ def wait(seconds):
 @app.route('/kuber', methods=['GET'])
 def get_service():
     # Определение лейбла сервиса
-    label_selector = "app=flask-test-master-release"
+    label_selector = "app_type=flask-test"
     logger.info("Получение сервисов с лейблом: %s", label_selector)
     services = v1.list_service_for_all_namespaces(label_selector=label_selector)
     logger.info("Количество сервисов, найденных: %d", len(services.items))
     
     try:
-        service_list = [] #Создаем массив для хранения списка сервисов
+        service_list = []
         dns_names = []  # Создаем массив для хранения DNS имен
         
         for service in services.items:
