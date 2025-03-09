@@ -55,9 +55,10 @@ def wait(seconds):
     logger.info("Ожидание завершено.")
 
 # создаем endpoint для вывода информации от  kubernetes api
+from flask import jsonify
+
 @app.route('/kuber', methods=['GET'])
 def get_service():
-    # Определение лейбла сервиса
     label_selector = "service_type=flask-test-worker"
     logger.info("Получение сервисов с лейблом: %s", label_selector)
     services = v1.list_service_for_all_namespaces(label_selector=label_selector)
@@ -65,7 +66,7 @@ def get_service():
     
     try:
         service_list = []
-        dns_names = []  # Создаем массив для хранения DNS имен
+        dns_names = []
         
         for service in services.items:
             service_info = {
@@ -79,12 +80,9 @@ def get_service():
                     'protocol': port.protocol
                 })
             service_list.append(service_info)
-            
-            # Формируем DNS имя и добавляем его в массив dns_names
             dns_name = f"http://{service.metadata.name}.default.svc.cluster.local:8080/sleep"
-            dns_names.append(dns_name)  # Добавляем в массив
-            
-        # Создаем массив для хранения ответов от веб-сервера
+            dns_names.append(dns_name)
+        
         response = []
         
         for dns_name in dns_names:
@@ -99,8 +97,8 @@ def get_service():
             
     except Exception as e:
         logger.error("Произошла ошибка: %s", e)
-
-    return service_list, response  # Возвращаем список сервисов и массив ответов
+    
+    return jsonify({'services': service_list, 'responses': response})
     
 # функция считывания переменной окружения времени ожидания перед запуском, задается в окружении среды export STARTUP_DELAY_SECONDS=[seconds]
 def main():
