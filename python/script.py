@@ -81,7 +81,7 @@ def get_service():
             service_list.append(service_info)
             
             # Формируем DNS имя и добавляем его в массив dns_names
-            dns_name = f"{service.metadata.name}.default.svc.cluster.local:8080/sleep"
+            dns_name = f"http://{service.metadata.name}.default.svc.cluster.local:8080/sleep"
             dns_names.append(dns_name)  # Добавляем в массив
             
         # Создаем массив для хранения ответов от веб-сервера
