@@ -58,7 +58,7 @@ def wait(seconds):
 @app.route('/kuber', methods=['GET'])
 def get_service():
     # Определение лейбла сервиса
-    label_selector = "lable_service_type=master" or "lable_service_type=worker"
+    label_selector = "lable_service_type"
     logger.info("Получение сервисов с лейблом: %s", label_selector)
     services = v1.list_service_for_all_namespaces(label_selector=label_selector)
     logger.info("Количество сервисов, найденных: %d", len(services.items))
