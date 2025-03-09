@@ -4,6 +4,7 @@ metadata:
   name: {{ .Values.service_name }}
   labels:
     app_type: {{ .Values.app_type }}
+    service_type: {{ .Values.service_type }} 
 spec:
   type: NodePort
   ports:

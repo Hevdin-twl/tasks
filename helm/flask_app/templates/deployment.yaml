@@ -5,7 +5,7 @@ metadata:
   labels:
     app: {{ .Values.name }}
     app_type: {{  .Values.app_type  }}
-    service_type: {{  .Values.lable_service_type  }}
+    service_type: {{  .Values.service_type  }}
 spec:
   replicas: 1
   selector:
@@ -16,7 +16,7 @@ spec:
       labels:
         app: {{ .Values.name }}
         app_type: {{  .Values.app_type  }}
-        service_type: {{  .Values.lable_service_type  }}
+        service_type: {{  .Values.service_type  }}
     spec:
       serviceAccount: {{ .Values.serviceAccount.name  }}
       serviceAccountName: {{ .Values.serviceAccount.name  }}
