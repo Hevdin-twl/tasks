@@ -58,7 +58,7 @@ def wait(seconds):
 @app.route('/kuber', methods=['GET'])
 def get_service():
     # Определение лейбла сервиса
-    label_selector = "app=flask-test"
+    label_selector = "app=flask-test-master-release"
     logger.info("Получение сервисов с лейблом: %s", label_selector)
     services = v1.list_service_for_all_namespaces(label_selector=label_selector)
     logger.info("Количество сервисов, найденных: %d", len(services.items))
