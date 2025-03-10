@@ -104,7 +104,7 @@ def get_service():
         logger.error("Произошла ошибка: %s", e)
     
     return jsonify({'services': service_list, 'responses': response})
-
+# функция планировщика запуск функции  get_services с 5 секундным интервалом
 def start_scheduler():
     scheduler.add_job(func=get_service, trigger='interval', seconds=5)
     scheduler.start()
