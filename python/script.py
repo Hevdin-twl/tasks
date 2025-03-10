@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from apscheduler.schedulers.background import BackgroundScheduler
 from kubernetes import client, config
 import logging
 import urllib.request
@@ -17,6 +18,10 @@ logger = logging.getLogger(__name__)
 #инициализация конфигурации кубера через его api
 config.load_incluster_config()
 v1 = client.CoreV1Api()
+
+#инициализация планировщика
+scheduler = BackgroundScheduler()
+
 
 # функция ожидания прнимает параметр GET sleep?sleep=[значение]
 @app.route('/sleep', methods=['GET'])
@@ -99,6 +104,10 @@ def get_service():
         logger.error("Произошла ошибка: %s", e)
     
     return jsonify({'services': service_list, 'responses': response})
+
+def start_scheduler():
+    scheduler.add_job(func=get_service, trigger='interval', seconds=5)
+    scheduler.start()
     
 # функция считывания переменной окружения времени ожидания перед запуском, задается в окружении среды export STARTUP_DELAY_SECONDS=[seconds]
 def main():
@@ -128,4 +137,6 @@ def main():
     app.run(host='0.0.0.0', port=8080, debug=False)
 # Вызов функции main
 if __name__ == '__main__':
-    main()
+#    main()
+    start_scheduler()  # Запустим планировщик
+    app.run(debug=True)
