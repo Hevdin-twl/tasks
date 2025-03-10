@@ -11,7 +11,7 @@ targetport: 8080
 nodeport: 30002
 image:
   repository: hevdin/flask-test
-  tag: f947b07
+  tag: aa979d5
 namespace: default
 service_name: flask-test-master
 serviceAccount:
