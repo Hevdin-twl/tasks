@@ -137,6 +137,6 @@ def main():
     app.run(host='0.0.0.0', port=8080, debug=False)
 # Вызов функции main
 if __name__ == '__main__':
-#    main()
     start_scheduler()  # Запустим планировщик
     app.run(debug=True)
+    main()
