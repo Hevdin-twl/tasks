@@ -20,7 +20,7 @@ spec:
         - name: image.repository
           value: hevdin/flask-test
         - name: image.tag
-          value: 53f2b02
+          value: d5fb4e4
   destination:
     server: https://kubernetes.default.svc
     namespace: default
