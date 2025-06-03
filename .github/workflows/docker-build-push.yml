@@ -48,6 +48,6 @@ jobs:
             echo "No changes to commit. Skipping."
           else
             git commit -m "Update image tag to ${TAG}"
-            git push
+            git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
           fi
 
