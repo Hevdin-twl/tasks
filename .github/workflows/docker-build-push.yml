@@ -37,7 +37,7 @@ jobs:
 
       - name: Update image.tag in tasks-helm-app.yaml
         run: |
-          sed -E "s/(name: image\.tag\s+value: )\S+/\1${TAG}/" argo/tasks-helm-app.yaml
+          sed -i -E "s/(name: image\.tag\s+value: )\S+/\1${TAG}/" argo/tasks-helm-app.yaml
 
       - name: Commit and push updated tag
         run: |
