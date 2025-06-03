@@ -40,7 +40,14 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
+
           git add argo/tasks-helm-app.yaml
-          git commit -m "Update image tag to $TAG"
-          git push
+          
+          if git diff --cached --quiet; then
+            echo "No changes to commit. Skipping commit."
+          else
+            git commit -m "Update image tag to $TAG"
+            git push
+          fi
+
 
