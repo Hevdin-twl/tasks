@@ -49,3 +49,5 @@ jobs:
           else
             git commit -m "Update image tag to ${TAG}"
             git push
+          fi
+
