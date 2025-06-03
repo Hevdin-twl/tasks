@@ -47,7 +47,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit. Skipping."
           else
-            git commit -m "Update image tag to ${TAG}"
+            git commit -m "Update image tag1 to ${TAG}"
             git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
           fi
 
