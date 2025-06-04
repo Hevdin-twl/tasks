@@ -14,14 +14,6 @@ spec:
     repoURL: https://github.com/Hevdin-twl/tasks.git
     targetRevision: main
     path: helm/flask_app
-    helm:
-      valueFiles:
-        - values.yaml
-      parameters:
-        - name: image.repository
-          value: hevdin/flask-test
-        - name: image.tag
-          value: 1cdd0a4
   destination:
     server: https://kubernetes.default.svc
     namespace: default
