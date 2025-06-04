@@ -46,9 +46,4 @@ jobs:
             git commit -m "Update image tag1 to ${TAG}"
             git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
           fi
-      - name: Force ArgoCD Sync
-        env:
-          ARGOCD_AUTH_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
-        run: |
-          curl -k -H "Authorization: Bearer $ARGOCD_AUTH_TOKEN" \
-            -X POST https://<ARGOCD_SERVER>/api/v1/applications/tasks-helm/sync
+ 
