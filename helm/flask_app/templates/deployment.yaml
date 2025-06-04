@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    argocd-image-updater.argoproj.io/image-tag: "{{ .Values.image.tag }}"
   name: {{ .Values.name }}
+  annotations:
+    argocd.argoproj.io/tracking-id: tasks-helm:apps/Deployment:{{ .Values.namespace }}/{{ .Values.name }}
   labels:
     app: {{ .Values.name }}
     app_type: {{  .Values.app_type  }}
