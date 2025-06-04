@@ -50,4 +50,9 @@ jobs:
             git commit -m "Update image tag1 to ${TAG}"
             git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
           fi
+      - name: Trigger ArgoCD hard refresh
+        run: |
+          kubectl patch application tasks-helm -n argocd \
+            -p '{"metadata": {"annotations": {"argocd.argoproj.io/refresh": "hard"}}}' \
+            --type=merge
 
