@@ -35,10 +35,6 @@ jobs:
             -t hevdin/flask-test:latest \
             --push
 
-      - name: Update image.tag in tasks-helm-app.yaml using sed (multi-line)
-        run: |
-          sed -i -E "/name: image.tag/{n;s/value: .*/value: ${TAG}/;}" argo/tasks-helm-app.yaml
-
       - name: Commit and push updated tag
         run: |
           git config user.name "github-actions"
@@ -50,9 +46,10 @@ jobs:
             git commit -m "Update image tag1 to ${TAG}"
             git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
           fi
-      - name: Trigger ArgoCD hard refresh
+      - name: Force ArgoCD Sync
+        env:
+          ARGOCD_AUTH_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
         run: |
-          kubectl patch application tasks-helm -n argocd \
-            -p '{"metadata": {"annotations": {"argocd.argoproj.io/refresh": "hard"}}}' \
-            --type=merge
+          curl -k -H "Authorization: Bearer $ARGOCD_AUTH_TOKEN" \
+            -X POST https://<ARGOCD_SERVER>/api/v1/applications/tasks-helm/sync
 
