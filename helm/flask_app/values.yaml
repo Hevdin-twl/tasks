@@ -16,4 +16,3 @@ serviceAccount:
   name: flask-test-master
 image:
   repository: hevdin/flask-test
-  tag: manual  # Это значение будет перезаписываться из tasks-helm-app.yaml
