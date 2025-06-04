@@ -11,9 +11,12 @@ metadata:
 spec:
   project: default
   source:
+    helm:
+      valueFiles:
+      - values.yaml
+    path: helm/flask_app/
     repoURL: https://github.com/Hevdin-twl/tasks.git
     targetRevision: main
-    path: helm/flask_app
   destination:
     server: https://kubernetes.default.svc
     namespace: default
