@@ -16,3 +16,4 @@ serviceAccount:
   name: flask-test-master
 image:
   repository: hevdin/flask-test
+  tag: abc123
