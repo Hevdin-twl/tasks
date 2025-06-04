@@ -3,12 +3,12 @@ kind: Application
 metadata:
   name: tasks-helm
   namespace: argocd
-  annotations:
-    argocd-image-updater.argoproj.io/image-list: hevdin/flask-test
-    argocd-image-updater.argoproj.io/hevdin.flask-test.update-strategy: newest
-    argocd-image-updater.argoproj.io/write-back-method: git
-    argocd-image-updater.argoproj.io/git-branch: main
-    argocd-image-updater.argoproj.io/hevdin.flask-test.force-update: "true"
+      annotations:
+        argocd-image-updater.argoproj.io/image-list: hevdin/flask-test
+        argocd-image-updater.argoproj.io/hevdin.flask-test.update-strategy: newest
+        argocd-image-updater.argoproj.io/write-back-method: git
+        argocd-image-updater.argoproj.io/git-branch: main
+        argocd-image-updater.argoproj.io/hevdin.flask-test.force-update: "true"
 spec:
   project: default
   source:
@@ -20,7 +20,7 @@ spec:
         - name: image.repository
           value: hevdin/flask-test
         - name: image.tag
-          value: ""
+          value: "manual"
   destination:
     server: https://kubernetes.default.svc
     namespace: default
