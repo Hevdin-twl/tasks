@@ -27,7 +27,7 @@ jobs:
           TAG=$(echo "${GITHUB_SHA}" | cut -c1-7)
           echo "TAG=${TAG}" >> $GITHUB_ENV
 
-      - name: Build and Push Docker image
+      - name: Build and Push Docker images
         run: |
           docker buildx build -f ./python/Dockerfile ./python/ \
             --platform linux/amd64,linux/arm64 \
