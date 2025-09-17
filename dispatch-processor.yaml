@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dispatch-processor
+  namespace: monitoring
+  labels:
+    app: dispatch-processor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dispatch-processor
+  template:
+    metadata:
+      labels:
+        app: dispatch-processor
+    spec:
+      containers:
+        - name: dispatch-processor
+          image: your-dockerhub-username/dispatch-processor:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DISPATCHER_URL
+              value: "http://dispatcher.citrus-dispatcher.svc.cluster.local:8888/metrics"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dispatch-processor
+  namespace: monitoring
+  labels:
+    app: dispatch-processor
+spec:
+  selector:
+    app: dispatch-processor
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: http
+---
+# Работает, если установлен prometheus-operator или victoria-metrics-operator
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: dispatch-processor
+  namespace: monitoring
+  labels:
+    release: prometheus  # замени на свой release name, если используешь helm-оператор
+spec:
+  selector:
+    matchLabels:
+      app: dispatch-processor
+  namespaceSelector:
+    matchNames:
+      - monitoring
+  endpoints:
+    - port: http
+      path: /metrics_processed
+      interval: 15s
+      scrapeTimeout: 10s
+
